@@ -121,7 +121,6 @@ class UpdateResiduePositionData():
         global allele2seq
         np_array = np.array([self.data_aa_pos_dict[i][aa] for i, aa in enumerate(allele2seq[query_allele])])
         return np.reshape(np_array, (1, 34))[0]
-
     
     
 def feat_1(df_all, data_dict, alleles_w_data, has_left_out_alleles=True):
