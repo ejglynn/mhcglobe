@@ -6,8 +6,6 @@
 
 <div align="center">
     
-# MHCGlobe & MHCPerf
-    
 [![DOI:00.0000/2022.01.20.000000](http://img.shields.io/badge/DOI-00.0000/0000.00.00.000000-B31B1B.svg)](https://mhcglobe)
 
 </div>
@@ -18,7 +16,7 @@
 
 **Results:** We demonstrate stark disparities in how much binding data are associated with HLA alleles of individuals across racial and ethnic groups. Pan-MHC modeling mitigates some of these disparities when predicting MHC-peptide binding, and we devise a strategy to begin to address remaining inequities by leveraging our per-allele predictions of performance. The approaches introduced here further the development of equitable MHC binding models, which are necessary to understand adaptive immune response and to design effective personalized immunotherapies in genetically diverse individuals.
 
-# Installation
+# MHCGlobe & MHCPerf Installation
 -----------
 
 MHCGlobe and MHCPerf are both easily accessible for model inference and re-training through the Docker image, `ejglynn:mhcglobe:latest`.
