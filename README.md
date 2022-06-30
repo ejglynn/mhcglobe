@@ -1,10 +1,12 @@
 ---
 
-<div align="center">
+
 
 # Mitigating Inequity in MHC Binding Predictions for T Cell Epitope Discovery
 
-    ### MHCGlobe & MHCPerf
+<div align="center">
+    
+# MHCGlobe & MHCPerf
     
 [![DOI:00.0000/2022.01.20.000000](http://img.shields.io/badge/DOI-00.0000/0000.00.00.000000-B31B1B.svg)](https://mhcglobe)
 
