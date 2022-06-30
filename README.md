@@ -27,13 +27,15 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 
     $ sudo docker pull ejglynn:mhcglobe:latest
 
-3) Create a local user directory, `user_dir` which will be mounted to the mhcglobe docker container so new data and saved models can be added and retrieved from mhcglobe docker container. 
+3) Create a mhcglobe directory in the users local filesystem, which will be mounted to the mhcglobe docker container so new data and saved models can be added and retrieved from mhcglobe docker container.
 
-    $ mkdir {user_dir}/mhcglobe
+    $ mkdir {local_user_path}/mhcglobe
     
-4) Start the mhcglobe docker instance, with port forwarding to access the MHCGlobe directory within the docker container. Following this command a automatically generated password will be displayed to access the mhcglobe juypter.
+4) Start the mhcglobe docker instance, with port forwarding to access the jupyter notebooks and models within the docker container.
 
-    $ sudo docker run -it --rm -v {user_dir}/mhcglobe:/tf/local/ -p 8888:8888 ejglynn/mhcglobe:latest
+    $ sudo docker run -it --rm -v {local_user_path}/mhcglobe:/tf/local/ -p 8888:8888 ejglynn/mhcglobe:latest
     
-5) In the web browser natigate to [http://localhost:8888] to access the MHCGlobe jupyter notebook environment. In the browser, the jupyter notebook will prompt the user for a password, which can be copied from step 4 above.
+5) Following this command, a password will be automatically generated and displayed in the terminal to access the mhcglobe juypter environment in the next step.
+
+6) In the web browser natigate to [http://localhost:8888] to access the MHCGlobe jupyter notebook environment. In the browser, the jupyter notebook will prompt the user for the password mentioned above.
 
