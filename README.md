@@ -21,7 +21,7 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 
 1) Install [Docker](https://docs.docker.com/get-docker/)
 
-2) Download MHCGlobe Docker Image
+2) Download the MHCGlobe Docker Image
 
     $ sudo docker pull ejglynn:mhcglobe:latest
 
