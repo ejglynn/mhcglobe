@@ -37,5 +37,5 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
     
 5) Following this command, a password will be automatically generated and displayed in the terminal to access the mhcglobe juypter environment in the next step.
 
-6) In the web browser natigate to [http://localhost:8888] to access the MHCGlobe jupyter notebook environment. In the browser, the jupyter notebook will prompt the user for the password mentioned above.
+6) In the web browser natigate to [http://localhost:8888](http://localhost:8888) to access the MHCGlobe jupyter notebook environment. In the browser, the jupyter notebook will prompt the user for the password mentioned above.
 
