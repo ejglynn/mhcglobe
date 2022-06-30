@@ -1,4 +1,6 @@
-# my_functions.py
+import numpy
+import pickle
+
 def tup2dict(tup, di):
     for a, b in tup:
         di.setdefault(a, b)
@@ -8,10 +10,11 @@ def parse_allele(allele):
     """ Parse MHC alllele variant name into
     common format between datasets.
     """
-    allele = allele.replace('*', '').replace(':', '')#.replace('N', '').replace('g', '')
+    allele = allele.replace('*', '').replace(':', '')
     return allele
 
-blosum62 = ['A  4 -1 -2 -2  0 -1 -1  0 -2 -1 -1 -1 -1 -2 -1  1  0 -3 -2  0', 
+blosum62 = [
+    'A  4 -1 -2 -2  0 -1 -1  0 -2 -1 -1 -1 -1 -2 -1  1  0 -3 -2  0', 
     'R -1  5  0 -2 -3  1  0 -2  0 -3 -2  2 -1 -3 -2 -1 -1 -3 -2 -3', 
     'N -2  0  6  1 -3  0  0  0  1 -3 -3  0 -2 -3 -2  1  0 -4 -2 -3', 
     'D -2 -2  1  6 -3  0  2 -1 -1 -3 -4 -1 -3 -3 -1  0 -1 -4 -3 -3', 
@@ -64,3 +67,49 @@ def select_peptideencoding(encode_type):
             if e1 not in aa_encoding_dict:
                 aa_encoding_dict[e1] = get_vector(e1)
     return aa_encoding_dict
+
+
+class MHCDistBLOSUM62():
+    def __init__(self):
+        self.blosum62_dict = select_peptideencoding(encode_type='BLOSUM62')
+        
+        # Precomputed matrix of BLOSUM62 distances between MHC pseudosequences.
+        large_data_dir = '/tf/fairmhc/data_git_ignore'
+        # Pairwise Distance Matrix
+        similarity_path = f'{large_data_dir}/distB62_unique_pseudpsequences.pkl'
+        # pseudosequence to matrix index mapping for distance retrieval
+        seq_index_dict_path = f'{large_data_dir}/seq_index_dict.pkl'
+        
+        self.results_62 = pickle.load(open(similarity_path, 'rb'))
+        self.seq_index_dict = pickle.load(open(seq_index_dict_path, 'rb'))
+
+    def substitution_scoreB62(self, seq1, seq2, weights=None):
+        if weights == None:
+            weights = numpy.ones(len(seq1))
+        # Return BLOSUM62 distance (Weighted or Non-Weightedimport numpy
+        # between two peptide sequences.
+        AA = 'A R N D C Q E G H I L K M F P S T W Y V'.split()
+        a, b = list(seq1), list(seq2)
+        sequence_score = 0
+        for i in range(len(a)): # for each index position in the pseudo sequence.
+            sub_score = self.blosum62_dict[ a[i] ][AA.index(b[i])]
+            sub_score = sub_score * weights[i]
+            sequence_score += sub_score
+        return sequence_score
+
+    def distance_score(self, seq1, seq2, weights=None):
+        # Compute distance measurement based on NetMHCpan 2007 figure 2 legend equation.
+        s1_s1 = self.substitution_scoreB62(seq1, seq1, weights)
+        s2_s2 = self.substitution_scoreB62(seq2, seq2, weights)
+        s1_s2 = self.substitution_scoreB62(seq1, seq2, weights)
+        distance = 1 - (s1_s2/numpy.sqrt(s1_s1*s2_s2))
+        return distance
+    
+    def retrieve_distance(self, seq1, seq2):
+        """ 
+        Return BLOSUM62 distance between two protein sequences.
+        Inputs must be protein sequences of equal length.
+        'X' residue is not permitted.
+        """
+        #global seq_index_dict, results_62
+        return self.results_62[self.seq_index_dict[seq1]][self.seq_index_dict[seq2]]

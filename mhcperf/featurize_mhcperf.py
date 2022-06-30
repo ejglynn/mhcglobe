@@ -8,21 +8,25 @@ import multiprocessing as mp
 #import sys
 #sys.path.append('/home/eric/MHCGLOBE/src/General/')
 import mhc_data
-import mhc_distance
 import pickle
 import feature_column_names
 
+#import mhc_distance
+import my_functions
+from mhc2seq import PseudoSeq
+
 # To compute distance from scratch.
-BLOSUM62_OBJ = mhc_distance.BLOSUM62()
+#BLOSUM62_OBJ = mhc_distance.BLOSUM62()
+DistObj = my_functions.MHCDistBLOSUM62()
 
 # Data count data
 #data_obj_BAEL = mhc_data.pMHC_Data(only_EL=False) 
 #data_dict = data_obj_BAEL.mk_data_dict(data_obj_BAEL.positives) # Data counts used when sorting neighbors.
 
 #### pseudoseq stuff should not be in a data object. #####
-import pseudosequence_functions
-pseudoseq = pseudosequence_functions.PseudoSequence().pseudoseq
-allele2seq = pseudosequence_functions.PseudoSequence().allele2seq
+
+pseudoseq = PseudoSeq().pseudoseq
+allele2seq = PseudoSeq().allele2seq
 
 def make_seq2allele(pseudoseq):
     seq2allele = dict()
@@ -165,35 +169,30 @@ def updatefeat_1(df_all, data_dict, alleles_w_data):
 class NeighborDistBins():
     
     #Verified to work for df_classical and lxo df.
-    def __init__(self, data_dict, include_distbin8):
+    def __init__(self, data_dict):
         """
-        When include_distbin8==True use a binning strategy where
-        dist_bin-0.0 only includes training allele neighbors with
-        distance of 0 from test-MHC.
-        When include_distbin8==False use binning strategy where
-        dist_bin-0.0 includes training allele neighbors with distances
+        Use binning strategy where
+        dist_bin "dist_bin_0" includes training allele neighbors with distances
         0.0-0.1 but not including 0.1. This strategy does not produce 
         sufficient data to use dist_bin_0.8, and includes what would 
         have been there in dist_bin_0.7.
         """
         self.data_dict = data_dict
-        self.include_distbin8 = include_distbin8
     
     # 2 Amount of positive data in neighboring bins.
     def dist_to_bin(self, distance):
-        if self.include_distbin8: # [0.0-0.0], (0.1-0.2], ..., (0.8-0.9]
-            n_bins =10
-            bin_thresholds = [i/10 for i in range(0, n_bins+1, 1)]
-            for thresh in bin_thresholds:
-                if distance <= thresh:
-                    return f'dist_bin_{thresh}'
-        else: # (0.0-0.1], ..., (0.8-] # equal width bins, and 0.8 distbin hold everything greater than 0.8.
-            n_bins=7
-            bin_thresholds = sorted(range(0, n_bins+1), reverse=True)
-            bin_thresholds = [t/10 for t in bin_thresholds]
-            for thresh in bin_thresholds:
-                if distance >= thresh:
-                    return f'dist_bin_{thresh}'
+        """
+        Naming distance bins. 
+        Input: float with sequence-sequence distance.
+        Output: string label indicating associated distance bin.
+        """
+        # (0.0-0.1], ..., (0.7+] # equal width bins, and 0.7 distbin hold everything greater than 0.7.
+        n_bins=7
+        bin_thresholds = sorted(range(0, n_bins+1), reverse=True)
+        bin_thresholds = [t/10 for t in bin_thresholds]
+        for thresh in bin_thresholds:
+            if distance >= thresh:
+                return f'dist_bin_{thresh}'
 
     def add_dist_bin(self, dist_to_train_vct):
         return [self.dist_to_bin(dist) for dist in dist_to_train_vct]
@@ -208,25 +207,28 @@ class NeighborDistBins():
             by_pseudoseq=True)
         neighbors_df.loc[:, 'dist_bin'] = self.add_dist_bin(neighbors_df['dist_to_train'])
         
-        #tmp.loc[:,'train_pos_data'] = [self.data_dict[a] for a in tmp['train_allele']]
         tmp2 = (
             neighbors_df[['dist_bin', 'train_seq_data']]
             .groupby('dist_bin')['train_seq_data']
             .apply(np.sum)
-            .reset_index())
+            .reset_index()
+        )
         c_names = pd.DataFrame({'dist_bin':[f'dist_bin_{i/10}' for i in range(0, n_bins+1, 1)]})
         tmp2 = (
             pd.merge(tmp2, c_names, how='outer')
-            .rename(columns={'train_seq_data':'bin_train_seq_data'}))
+            .rename(columns={'train_seq_data':'bin_train_seq_data'})
+        )
         tmp2.loc[:,'allele'] = target_allele
         tmp2 = (
             tmp2[['allele', 'dist_bin', 'bin_train_seq_data']]
-            .pivot(index='allele',columns='dist_bin'))
+            .pivot(index='allele',columns='dist_bin')
+        )
         tmp2.columns = tmp2.columns.droplevel()
         tmp2 = (
             tmp2
             .reset_index()
-            .fillna(0))
+            .fillna(0)
+        )
         tmp2.columns.name = None
         return tmp2
 
@@ -261,7 +263,7 @@ def neighbors_array(query_allele, train_alleles, K, data_dict, by_pseudoseq=True
         
     if by_pseudoseq==False:
         dist_to_train = np.array(
-            [mhc_distance.retrieve_distance(query_seq, tr_seq) for tr_seq in train_allele_seqs],
+            [DistObj.retrieve_distance(query_seq, tr_seq) for tr_seq in train_allele_seqs],
             dtype='float64')
         
         neighbors_df = (
@@ -288,7 +290,7 @@ def neighbors_array(query_allele, train_alleles, K, data_dict, by_pseudoseq=True
         )
         
         # Use neighbors_df['train_sequence'] instead of train_allele_seqs because no more duplicate pseudoseqs.
-        neighbors_df['dist_to_train']=[mhc_distance.retrieve_distance(query_seq, tr_seq) for tr_seq in neighbors_df['train_sequence']]
+        neighbors_df['dist_to_train']=[DistObj.retrieve_distance(query_seq, tr_seq) for tr_seq in neighbors_df['train_sequence']]
         neighbors_df.sort_values('dist_to_train', ascending=True, inplace=True)
         neighbors_df['allele']=[query_allele for i in range(neighbors_df.shape[0])]
         
@@ -378,7 +380,7 @@ def train_data_size(df, data_alleles_BAEL, data_dict, has_left_out_alleles=True)
 
 
 # COMBINE FEATURE SETS
-def get_level2_features(df, alleles_with_data, data_dict, include_distbin8, has_left_out_alleles=True):
+def get_level2_features(df, alleles_with_data, data_dict, has_left_out_alleles=True):
     """
     has_left_out_alleles==True will give the righ answer even if all alleles are included,
     but has_left_out_alleles==False avoids iterating df rows, when all data alleles
@@ -386,11 +388,11 @@ def get_level2_features(df, alleles_with_data, data_dict, include_distbin8, has_
     """
     f1=feat_1(df, data_dict, alleles_with_data, has_left_out_alleles).reset_index(drop=True)
     f2=topK_features_mp(df, data_dict, alleles_with_data, has_left_out_alleles)
-    f3=NeighborDistBins(data_dict, include_distbin8).get_neighbor_features(df, alleles_with_data, has_left_out_alleles)
+    f3=NeighborDistBins(data_dict).get_neighbor_features(df, alleles_with_data, has_left_out_alleles)
     df_v2 = pd.concat([f1, f2, f3], axis=1)
     df_v2['data_size'] = train_data_size(df, alleles_with_data, data_dict, has_left_out_alleles)
     
-    col_order = feature_column_names.get_feature_cols(include_distbin8=include_distbin8)
+    col_order = feature_column_names.get_feature_cols()
     df_v2 = df_v2.loc[:, col_order]
     return df_v2
 
@@ -398,7 +400,7 @@ def get_level2_features(df, alleles_with_data, data_dict, include_distbin8, has_
 # BELOW IF FOR UPDATING AN EXISTING FEATURE DF.
 
 # Updating existing featurized df.
-def get_dist_bin_data_tuples(target_allele, neighbor_alleles, data_dict, include_distbin8=False):
+def get_dist_bin_data_tuples(target_allele, neighbor_alleles, data_dict):
     # Used only when updating existing feature set for speed in MVP-MHC alg.
     # Does not need data_dict for anything at this step.
     global seq2allele
@@ -410,11 +412,11 @@ def get_dist_bin_data_tuples(target_allele, neighbor_alleles, data_dict, include
         data_dict,
         by_pseudoseq=True
     )                          
-    neighbor_df.loc[:,'dist_bin']=[NeighborDistBins(dict(), include_distbin8).dist_to_bin(dist) for dist in neighbor_df['dist_to_train']]
+    neighbor_df.loc[:,'dist_bin']=[NeighborDistBins(dict()).dist_to_bin(dist) for dist in neighbor_df['dist_to_train']]
     tr_seqs_sorted, distance_bins_sorted = neighbor_df['train_sequence'], neighbor_df['dist_bin']
     return zip(tr_seqs_sorted, distance_bins_sorted)
 
-def update_feat3(df_test, allele_gets_data, data_to_add, data_alleles_BAEL, classical_hlas, data_dict_new, include_distbin8):
+def update_feat3(df_test, allele_gets_data, data_to_add, data_alleles_BAEL, classical_hlas, data_dict_new):
     """
     Update data values for an existing df_test with bin features. 
     """
@@ -432,7 +434,7 @@ def update_feat3(df_test, allele_gets_data, data_to_add, data_alleles_BAEL, clas
     # Only compute dist bins for allele which is getting new data.
     # dist bins are reciprocal for two alleles. 
     # data_dict is not used in get_dist_bin_data_tuples() so use a empty dict to satify class object.
-    tmp_tups = get_dist_bin_data_tuples(allele_gets_data, classical_neighbors, data_dict_new, include_distbin8)
+    tmp_tups = get_dist_bin_data_tuples(allele_gets_data, classical_neighbors, data_dict_new)
     for train_seq, dist_bin in tmp_tups:
         for train_allele in seq2allele[train_seq]: 
             if train_allele not in list(df_test.allele): # Don't need to update features for alleles that have data, but are not in df_test.
@@ -444,9 +446,9 @@ def update_feat3(df_test, allele_gets_data, data_to_add, data_alleles_BAEL, clas
     return df_test_copy.loc[:,'dist_bin_0.0':'dist_bin_0.7'].reset_index(drop=True)
 
 
-def update_level2_features(df, allele_gets_data, data_to_add, alleles_with_data, classical_hlas, data_dict_new, include_distbin8):
+def update_features(df, allele_gets_data, data_to_add, alleles_with_data, classical_hlas, data_dict_new):
     """
-    Update an existing df (featurized?) with level 2 model features for speed increase when doing MVP_MHC algorithm.
+    Update an existing df with level 2 model features for speed increase when doing MVP_MHC algorithm.
     """
     
     for a in data_dict_new:
@@ -467,12 +469,12 @@ def update_level2_features(df, allele_gets_data, data_to_add, alleles_with_data,
         alleles_with_data,
         classical_hlas,
         data_dict_new,
-        include_distbin8
     ).reset_index(drop=True)
     
     df_v2 = pd.concat([f1, f2, f3], axis=1)
     df_v2['data_size'] = train_data_size(df, alleles_with_data, data_dict_new, has_left_out_alleles=False)
 
-    col_order = feature_column_names.get_feature_cols(include_distbin8)
+    col_order = feature_column_names.get_feature_cols()
     df_v2 = df_v2.loc[:, col_order]
+    df_v2.insert(0, 'allele', df.allele)
     return df_v2
