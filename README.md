@@ -1,5 +1,3 @@
----
-
 <div align="left">
 
 # Mitigating Inequity in MHC Binding Predictions for T Cell Epitope Discovery
