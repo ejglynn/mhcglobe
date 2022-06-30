@@ -10,6 +10,7 @@ import multiprocessing as mp
 import mhc_data
 import pickle
 import feature_column_names
+from paths import DataPaths
 
 #import mhc_distance
 import my_functions
@@ -478,3 +479,79 @@ def update_features(df, allele_gets_data, data_to_add, alleles_with_data, classi
     df_v2 = df_v2.loc[:, col_order]
     df_v2.insert(0, 'allele', df.allele)
     return df_v2
+
+def update_data_dict(allele_gets_data : str, add_n_data : int):
+    """
+    Retrieve dictionary with (key) MHC allele names and
+    (value) number of positive binding instance observed in
+    MHCGlobe binding dataset. Add number of binding instance 
+    (add_n_data) to dict for allele (allele_gets_data)
+    
+    Arguments
+    _____
+    
+    allele_gets_data : str
+        MHC allele name which recieved additional data beyond the current MHCGlobe training data
+    
+    add_n_data : int
+        Number of new peptide-MHC positive binding instances recorded for allele_gets_data
+        
+    Outputs
+    
+    data_dict : dict
+        Dictionary updated data count
+    
+    data_alleles : list
+        List of allele names which are associated with positve binding data
+        in data_dict.
+    _____
+    """
+    ba_data_obj = mhc_data.pMHC_Data(only_EL=False, drop_duplicate_records=False)
+    binding_data = ba_data_obj.positives
+    data_dict = ba_data_obj.mk_data_dict(binding_data)
+    
+    data_dict[allele_gets_data] += add_n_data
+    
+    data_alleles = ba_data_obj.get_data_alleles(data_dict)[0]
+    return data_dict, data_alleles
+
+
+def update_mhcperf_features(allele_gets_data : str, add_n_data : int):
+    """
+    Function to quickly update existing MHCPerf feature when an allele
+    recieves new positive peptide-MHC binding data.
+    
+    Arguments
+    _____
+    
+    allele_gets_data : str
+        MHC allele name which recieved additional data beyond the current MHCGlobe training data
+    
+    add_n_data : int
+        Number of new peptide-MHC positive binding instances recorded for `allele_gets_data`
+        
+    Outputs
+    _____
+    
+    df_all_features : pandas.DataFrame
+        Updated MHCPerf feature df incorporating binding data added to input allele.
+    """
+    data_dict_update, data_alleles_update = update_data_dict(allele_gets_data, add_n_data)
+
+    df_all_featurized_path = DataPaths().mhcperf_all_data
+    df_all = pd.read_csv(df_all_featurized_path)
+    
+    classical_hlas = list(df_all.loc[[a[:5] in ['HLA-A', 'HLA-B', 'HLA-C'] \
+                                      for a in df_all.allele],:].allele.unique())
+    
+    df_all_features = update_features(
+                df_all,
+                allele_gets_data,
+                add_n_data,
+                data_alleles_update,
+                classical_hlas,
+                data_dict_update
+    )
+    return df_all_features
+    df_all_features.insert(0, 'allele', df_all.allele)
+    return df_all_features

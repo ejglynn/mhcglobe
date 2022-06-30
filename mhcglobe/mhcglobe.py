@@ -4,7 +4,7 @@ import pandas as pd
 import tensorflow as tf
 import tensorflow.keras.backend as K
 import train_functions as trainf
-import sequence_functions_lxo as seqf
+import sequence_functions as seqf
 import binding_affinity as ba
 
 from paths import DataPaths

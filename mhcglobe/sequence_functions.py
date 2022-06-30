@@ -3,16 +3,15 @@ import numpy as np
 import pandas as pd
 import pickle
 
+from paths import DataPaths
 import binding_affinity as ba
 
 class MHCPseudoSeqDF():
     def __init__(self):
-        data_dir = '/tf/data_mhcglobe-natmtd'
-        pseudoseq_csv_path = data_dir + '/allele_sequences_seqlen34.csv'
+        pseudoseq_csv_path = DataPaths().allele_sequences
         self.df = (
             pd.read_csv(pseudoseq_csv_path)
-            .rename(columns={'normalized_allele':'allele'})
-        )
+            .rename(columns={'normalized_allele':'allele'}))
 
         
 class MHCName():
@@ -20,7 +19,7 @@ class MHCName():
         """
         Parse allele name to match pseudosequence csv.
         """
-        allele = allele.replace('*', '').replace(':', '')#.replace('N', '').replace('g', '')
+        allele = allele.replace('*', '').replace(':', '')
         return(allele)
 
     def is_same(self, standard_allele_names, query_allele):
