@@ -1,6 +1,8 @@
 import numpy
 import pickle
 
+from paths import DataPaths
+
 def tup2dict(tup, di):
     for a, b in tup:
         di.setdefault(a, b)
@@ -74,11 +76,10 @@ class MHCDistBLOSUM62():
         self.blosum62_dict = select_peptideencoding(encode_type='BLOSUM62')
         
         # Precomputed matrix of BLOSUM62 distances between MHC pseudosequences.
-        large_data_dir = '/tf/fairmhc/data_git_ignore'
         # Pairwise Distance Matrix
-        similarity_path = f'{large_data_dir}/distB62_unique_pseudpsequences.pkl'
+        similarity_path = DataPaths().mhc_pairwise_dist
         # pseudosequence to matrix index mapping for distance retrieval
-        seq_index_dict_path = f'{large_data_dir}/seq_index_dict.pkl'
+        seq_index_dict_path = DataPaths().dist_seq_index_dict
         
         self.results_62 = pickle.load(open(similarity_path, 'rb'))
         self.seq_index_dict = pickle.load(open(seq_index_dict_path, 'rb'))

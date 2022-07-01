@@ -9,7 +9,7 @@ import binding_affinity as ba
 
 from paths import DataPaths
 
-tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+#tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class LoadMHCGlobe():
     """Load tensorflow models that make up MHCGlobe. \
@@ -22,17 +22,17 @@ class LoadMHCGlobe():
         # THESE DIR PATHS CAN ALSO BE IN A SEPERATE FILE AND READ IN. ##############
         #self.main_dir = '/home/eric'
         # THESE DIR PATHS CAN ALSO BE IN A SEPERATE FILE AND READ IN. ##############
-        self.init_model_dir          = DataPaths().models_dir + '/init/'
-        self.nonhuman_model_dir      = ''
-        self.full_model_dir          = DataPaths().models_dir + '/full/'
-        self.lno_model_dir           = ''
-        self.benchmark_netmhcpan_dir = '/home/eric/fairmhc/mhcglobe/models/noFRANK/'
-        self.bechmark_mhcflurry_dir  = DataPaths().models_dir + '/noS2/'
+        #self.init_model_dir          = DataPaths().models_dir + '/init/'
+        #self.nonhuman_model_dir      = ''
+        #self.full_model_dir          = DataPaths().models_dir + '/full/'
+        #self.lno_model_dir           = ''
+        #self.benchmark_netmhcpan_dir = '/home/eric/fairmhc/mhcglobe/models/noFRANK/'
+        #self.bechmark_mhcflurry_dir  = DataPaths().models_dir + '/noS2/'
 
         self.modeldir_dict = {
-            'init'                : self.init_model_dir,          # untrained
+            'init'                : DataPaths().mhcglobe_init,           # untrained
             'nonhuman'            : self.nonhuman_model_dir,      # trained on non-human mhc
-            'full'                : self.full_model_dir,          # trained on full database
+            'full'                : DataPaths().mhcglobe_full,          # trained on full database
             #'lno'                : self.lno_model_dir,           # leave-n-out cross validation """A seperate class will be needed to coordinate lno paths and models."""
             'noFRANK' : self.benchmark_netmhcpan_dir, # benchmark excluded from training
             'noS2' : self.bechmark_mhcflurry_dir,  # benchmark excluded from training

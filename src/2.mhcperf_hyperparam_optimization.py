@@ -12,7 +12,7 @@ from tqdm import tqdm
 import train_functions
 
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 
 

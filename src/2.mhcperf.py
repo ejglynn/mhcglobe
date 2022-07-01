@@ -28,8 +28,8 @@ class model():
     """
     def __init__(self, model_savepath=None, train_df_path=None):
         if (model_savepath == None) or (train_df_path==None):
-            self.model_savepath= '/tf/mhcglobe/mhcglobe_ppv/mhcglobe/mhcglobe_ppv_AD/10foldCV/models/mhcglobe-ppv_FULL'
-            self.train_df_path = '/tf/mhcglobe/mhcglobe_ppv/mhcglobe/src/df_update_withduplicates_newdistbins_PPVbalanced.csv'
+            self.model_savepath= DataPaths().mhcperf_full
+            self.train_df_path = DataPaths().mhcperf_train_data
         else:
             self.model_savepath= model_savepath
             self.train_df_path = train_df_path
@@ -133,8 +133,6 @@ class train():
         self.model.load_weights(self.model_savepath)
         self.model.save(self.model_savepath, save_format="tf")
         
-        
-
 
 if __name__ == '__main__':
     # Inputs

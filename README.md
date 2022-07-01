@@ -30,7 +30,7 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 
     `$ git pull https://github.com/ejglynn/mhcglobe.git`
     
-4) Start the mhcglobe docker instance. Substitute `path/to/mhcglobe_dir` with local path to mhcglobe directory pulled from github. 
+4) Start the mhcglobe docker instance. Substitute `{path/to/mhcglobe_dir}` with local path to mhcglobe directory pulled from github. 
 
     `$ sudo docker run -it --rm -v {path/to/mhcglobe_dir}:/mhcglobe -p 8888:8888 ejglynn/mhcglobe:latest`
 

@@ -3,14 +3,15 @@ import numpy
 import pandas
 from scipy.stats import rankdata
 
+from paths import DataPaths
 import my_functions as mf
 from mhc2seq import PseudoSeq
 
 
 class pMHC_Data():
     def __init__(self, only_EL, drop_duplicate_records=False):
-        data_path ='/tf/fairmhc/data_git_ignore/data_preprocessed_22Oct2020.csv'
-        self.data = pandas.read_csv(data_path)
+        pMHC_data_path = DataPaths().mhcglobe_full_training_data
+        self.data = pandas.read_csv(pMHC_data_path)
             
         # Subset Data–Binding Affinity and Elution or ONLY Elution
         if not only_EL:
