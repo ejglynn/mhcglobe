@@ -37,23 +37,24 @@ class BuildModel():
             shape=(mhc_len, aa_rep_len),
             name='mhc_input', dtype='float32')
 
-        peptide_tnsr = Flatten()(input_peptide_tnsr)
-        mhc_tnsr = Flatten()(input_mhc_tnsr)
+        self.peptide_tnsr = Flatten()(input_peptide_tnsr)
+        self.mhc_tnsr = Flatten()(input_mhc_tnsr)
 
-        tnsr = Concatenate(axis=1, name='concat')([mhc_tnsr, peptide_tnsr])
+        tnsr = Concatenate(axis=1, name='concat')([self.mhc_tnsr, self.peptide_tnsr])
         return tnsr
     
     def mhcperf_encoder(self):
-        input_tnsr = Input(
+        self.input_tnsr = Input(
             shape=(63,),
             name='mhcperf_input', dtype='float32')
+        return self.input_tnsr
         
     def build_graph(self, hparams):
         """ Build Tensorflow graph for neural network model."""
         if self.model_name == 'mhcglobe':
-            tnsr = mhcglobe_encoder()
+            tnsr = self.mhcglobe_encoder()
         elif self.model_name == 'mhcperf':
-            tnsr = mhcperf_encoder()
+            tnsr = self.mhcperf_encoder()
         
         # Hidden Layer 1
         tnsr = self.add_dense_block(tnsr, layer_number=1, hparams=hparams)
@@ -61,7 +62,13 @@ class BuildModel():
             tnsr = self.add_dense_block(tnsr, layer_number=2, hparams=hparams)
         if hparams['dense_layers'] >= 3:
             tnsr = self.add_dense_block(tnsr, layer_number=3, hparams=hparams)
-
-        output = Dense(1, activation='sigmoid', kernel_initializer=self.glorot_initializer, name='output')(tnsr)
-        model = Model(inputs=[input_mhc_tnsr, input_peptide_tnsr], outputs=output, name='model')
+            
+        if self.model_name == 'mhcglobe':
+            output = Dense(1, activation='sigmoid', kernel_initializer=self.glorot_initializer, name='output')(tnsr)
+            model = Model(inputs=[self.input_mhc_tnsr, self.input_peptide_tnsr], outputs=output, name='model')
+            
+        elif self.model_name == 'mhcperf':
+            output = Dense(1, activation='sigmoid', kernel_initializer=self.he_initializer, name='output')(tnsr)
+            model = Model(inputs=self.input_tnsr, outputs=output, name='model')
+        
         return model

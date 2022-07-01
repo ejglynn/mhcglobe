@@ -8,8 +8,7 @@ import sequence_functions as seqf
 import binding_affinity as ba
 
 from paths import DataPaths
-
-#tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class LoadMHCGlobe():
     """Load tensorflow models that make up MHCGlobe. \
@@ -19,24 +18,10 @@ class LoadMHCGlobe():
     """
     
     def __init__(self):
-        # THESE DIR PATHS CAN ALSO BE IN A SEPERATE FILE AND READ IN. ##############
-        #self.main_dir = '/home/eric'
-        # THESE DIR PATHS CAN ALSO BE IN A SEPERATE FILE AND READ IN. ##############
-        #self.init_model_dir          = DataPaths().models_dir + '/init/'
-        #self.nonhuman_model_dir      = ''
-        #self.full_model_dir          = DataPaths().models_dir + '/full/'
-        #self.lno_model_dir           = ''
-        #self.benchmark_netmhcpan_dir = '/home/eric/fairmhc/mhcglobe/models/noFRANK/'
-        #self.bechmark_mhcflurry_dir  = DataPaths().models_dir + '/noS2/'
-
         self.modeldir_dict = {
-            'init'                : DataPaths().mhcglobe_init,           # untrained
-            'nonhuman'            : self.nonhuman_model_dir,      # trained on non-human mhc
-            'full'                : DataPaths().mhcglobe_full,          # trained on full database
-            #'lno'                : self.lno_model_dir,           # leave-n-out cross validation """A seperate class will be needed to coordinate lno paths and models."""
-            'noFRANK' : self.benchmark_netmhcpan_dir, # benchmark excluded from training
-            'noS2' : self.bechmark_mhcflurry_dir,  # benchmark excluded from training
-        }
+            'init' : DataPaths().mhcglobe_init,          
+            'full' : DataPaths().mhcglobe_full
+        }          
         self.hparam_ids = [(13, 14,'ONE_HOT'), (15, 37,'ONE_HOT'), (9, 79,'ONE_HOT')]
         
         
@@ -101,7 +86,7 @@ class LoadMHCGlobe():
         return ensemble_models
 
 
-class MHCGlobe():
+class ensemble():
     """
     Ensemble of tensorflow neural networks used to predict binding affinity between
     a user defined mhc allele and short peptide fragment (8-15 amino acids in length).
@@ -127,8 +112,7 @@ class MHCGlobe():
             self.ensemble_model_paths = LoadMHCGlobe().new_model_paths(new_mhcglobe_path)
             self.ensemble_base_models = list(map(trainf.load_trained_mhcglobe_model, self.ensemble_model_paths))
             
-
-
+            
     ##### TRAIN #####
     def setup_data_training(self, df_train):
         """Divide the training set for training and validation for early stopping.
@@ -199,7 +183,7 @@ class MHCGlobe():
             new_model = trainf.train_mhcglobe_model(init_model, X_tr, Y_tr, X_es, Y_es, new_model_path, verbose)
 
         print('Training complete.')
-        return MHCGlobe(train_type=None, new_mhcglobe_path=new_mhcglobe_path)
+        return ensemble(train_type=None, new_mhcglobe_path=new_mhcglobe_path)
         
 
     

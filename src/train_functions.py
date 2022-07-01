@@ -87,15 +87,15 @@ def get_compiled_model(hparams):
     assert model_name in ['mhcglobe', 'mhcperf']
     #model = build_mhcperf.BuildModel().build_graph(hparams)
     model = build_deepnet.BuildModel(model_name).build_graph(hparams)
-    
-    optimizer = build_optimizer(hparams)
-    
+        
     if model_name == 'mhcglobe':
         loss = il.MSEWithInequalities().loss
     elif model_name == 'mhcperf':
         loss = hparams['loss_type']
         
-    model.compile(loss, optimizer=optimizer)
+    model.compile(
+        loss=loss,
+        optimizer=build_optimizer(hparams))
     return model
 
 def train_mhcglobe_model(model, X, Y, X_val, Y_val, savepath, verbose=0):
