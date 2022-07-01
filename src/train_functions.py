@@ -5,7 +5,7 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 import tensorflow.keras.callbacks as Callbacks
 from tensorflow.keras import optimizers, losses
-import build_deepnet, build_mhcperf
+import build_deepnet#, #build_mhcperf
 import inequality_loss as il
 
 #def val_loss(Y_true, Y_predict, loss_type='mse_inequality'):

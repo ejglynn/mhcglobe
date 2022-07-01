@@ -15,12 +15,19 @@ import binding_affinity as ba
         
 class PseudoSeq():
     def __init__(self):
-        self.pseudoseq = DataPaths().allele_sequences
-        self.pseudoseq = self.pseudoseq.rename(columns={'normalized_allele':'allele'})
+        pseudoseq_path = DataPaths().allele_sequences
+        self.pseudoseq = (
+            pd.read_csv(pseudoseq_path)
+            .rename(columns={'normalized_allele':'allele'})
+        )
         self.allele2seq = self.get_allele2pseudoseq()
         
     def get_allele2pseudoseq(self):
-        allele_to_pseudoseq = self.pseudoseq.set_index('allele').to_dict()['sequence']
+        allele_to_pseudoseq = (
+            self.pseudoseq
+            .set_index('allele')
+            .to_dict()['sequence']
+        )
         return allele_to_pseudoseq
 
         
