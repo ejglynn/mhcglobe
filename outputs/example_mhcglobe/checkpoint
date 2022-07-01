@@ -1,0 +1,2 @@
+model_checkpoint_path: "mhcglobe_example1_model79_fold9_ONE_HOT"
+all_model_checkpoint_paths: "mhcglobe_example1_model79_fold9_ONE_HOT"
