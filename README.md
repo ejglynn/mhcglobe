@@ -34,7 +34,7 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 
     `$ sudo docker run -it --rm -v {path/to/mhcglobe_dir}:/mhcglobe -p 8888:8888 ejglynn/mhcglobe:latest`
     
-5) In the terminal a jupyter notebook will start, and print instructions for opening the notebook in your web browser and a password `token={password}`.
+5) A jupyter notebook session will will start and will print instructions and a token to access the notebook from the web browser (`token={token_string_to_copy}`).
 
-5) In the web browser natigate to [http://localhost:8888](http://localhost:8888) and enter the password when prompted to access the MHCGlobe jupyter notebook.
+6) In the web browser natigate to [http://localhost:8888](http://localhost:8888) and enter the copied token when prompted to access the MHCGlobe jupyter notebook.
 
