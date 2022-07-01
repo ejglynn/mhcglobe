@@ -32,7 +32,7 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
     
 4) Start the mhcglobe docker instance. Substitute `{path/to/mhcglobe_dir}` with local path to mhcglobe directory pulled from github. 
 
-    `$ sudo docker run -it --rm -v {path/to/mhcglobe_dir}:/mhcglobe -p 8888:8888 ejglynn/mhcglobe:latest`
+    `$ sudo docker run -it --rm -v {path/to/mhcglobe}:/mhcglobe -p 8888:8888 ejglynn/mhcglobe:latest`
     
 5) A jupyter notebook session will will start and will print instructions and a token to access the notebook from the web browser (`token={token_string_to_copy}`).
 
