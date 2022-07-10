@@ -20,17 +20,14 @@
 
 MHCGlobe and MHCPerf are both easily accessible for model inference and re-training through the Docker image, `ejglynn:mhcglobe:latest`.
 
-1) Install [Docker](https://docs.docker.com/get-docker/)
-
-2) Pull the mhcglobe Docker Image. This image has the proper environment, models and data setup to run MHCGlobe and MHCPerf.
-
-    `$ sudo docker pull ejglynn:mhcglobe:latest`
-    
-3) Download the mhcglobe git repository containing the code.
+1) Download the mhcglobe git repository containing the code.
 
     `$ git clone https://github.com/ejglynn/mhcglobe.git`
+
+2) Install [Docker](https://docs.docker.com/get-docker/)
+
     
-4) Start the mhcglobe docker instance. Substitute `{path/to/mhcglobe_dir}` with local path to mhcglobe directory pulled from github. 
+3) Start the mhcglobe docker instance. Substitute `{path/to/mhcglobe_dir}` with local path to mhcglobe directory pulled from github. 
 
     `$ sudo docker run -it --rm -v {path/to/mhcglobe}:/mhcglobe -p 8888:8888 ejglynn/mhcglobe:latest`
     
