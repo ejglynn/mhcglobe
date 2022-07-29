@@ -1,5 +1,6 @@
 import os
 
+## edit this
 mhcglobe_dir = '/home/dghersi/Programs/mhcglobe'
 
 class DataPaths():
