@@ -26,13 +26,15 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 
 2) Update the `mhcglobe_dir` variable in `src/paths.py` with the full path to your `mhcglobe` folder.
     
-3) Create and activate a Python3 virtual environment with the following commands:
+3) From the `mhcglobe` folder create and activate a Python3 virtual environment with the following commands:
 
     `python3 -m pip install --user --upgrade pip`
 
     `python3 -m pip install --user virtualenv`
 
     `python3 -m venv env`
+    
+    `source env/bin/activate`
 
 4) Install prerequisites in the virtual environment:
 
