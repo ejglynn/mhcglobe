@@ -28,18 +28,18 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
     
 3) Create and activate a Python3 virtual environment with the following commands:
 
-`python3 -m pip install --user --upgrade pip`
+    `python3 -m pip install --user --upgrade pip`
 
-`python3 -m pip install --user virtualenv`
+    `python3 -m pip install --user virtualenv`
 
-`python3 -m venv env`
+    `python3 -m venv env`
 
 4) Install prerequisites in the virtual environment:
 
-`pip3 install jupyter pandas scipy sklearn tensorflow tqdm`
+    `pip3 install jupyter pandas scipy sklearn tensorflow tqdm`
 
 5) From the `mhcglobe` folder, start jupyter:
 
-`jupyter notebook`
+    `jupyter notebook`
 
 On your browser, click on the `MHCGlobe_User_Notebook.ipynb` to open and interact with the notebook.
