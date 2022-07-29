@@ -20,11 +20,11 @@
 
 MHCGlobe and MHCPerf are both easily accessible for model inference and re-training.
 
-1) Download the mhcglobe git repository containing the code.
+1) Download the mhcglobe git repository containing the code:
 
     `$ git clone https://github.com/ejglynn/mhcglobe.git`
 
-2) Update the `mhcglobe_dir` variable in `src/paths.py` with the full path to your `mhcglobe` folder
+2) Update the `mhcglobe_dir` variable in `src/paths.py` with the full path to your `mhcglobe` folder.
     
 3) Create and activate a Python3 virtual environment with the following commands:
 
