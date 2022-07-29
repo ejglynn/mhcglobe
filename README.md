@@ -22,7 +22,7 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 
 1) Download the mhcglobe git repository containing the code:
 
-    `$ git clone https://github.com/ejglynn/mhcglobe.git`
+    `git clone https://github.com/ejglynn/mhcglobe.git`
 
 2) Update the `mhcglobe_dir` variable in `src/paths.py` with the full path to your `mhcglobe` folder.
     
