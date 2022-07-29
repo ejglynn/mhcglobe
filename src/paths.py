@@ -1,11 +1,13 @@
 import os
 
+mhcglobe_dir = '/home/dghersi/Programs/mhcglobe'
+
 class DataPaths():
     def __init__(self):
         self.user_main_dir       = '/tf/mhcglobe/'
         
         #### Models ####
-        self.model_dir           = '/mhcglobe_docker/model'
+        self.model_dir           = mhcglobe_dir + '/model'
         
         # MHCGlobe
         self.mhcglobe_init       = f'{self.model_dir}/mhcglobe/init/'
@@ -15,7 +17,7 @@ class DataPaths():
         self.mhcperf_full        = f'{self.model_dir}/mhcperf/mhcperf-full'
         
         #### Data ####
-        self.data_dir            = '/mhcglobe_docker/data'
+        self.data_dir            = mhcglobe_dir + '/data'
            
         # General
         self.allele_sequences    = f'{self.data_dir}/allele_sequences_seqlen34.csv'
