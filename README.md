@@ -18,20 +18,28 @@
 
 # MHCGlobe & MHCPerf Installation
 
-MHCGlobe and MHCPerf are both easily accessible for model inference and re-training through the Docker image, `ejglynn:mhcglobe:latest`.
+MHCGlobe and MHCPerf are both easily accessible for model inference and re-training.
 
 1) Download the mhcglobe git repository containing the code.
 
     `$ git clone https://github.com/ejglynn/mhcglobe.git`
 
-2) Install [Docker](https://docs.docker.com/get-docker/)
-
+2) Update the `mhcglobe_dir` variable in `src/paths.py` with the full path to your `mhcglobe` folder
     
-3) Start the mhcglobe docker instance. Substitute `{path/to/mhcglobe_dir}` with local path to mhcglobe directory pulled from github. 
+3) Create and activate a Python3 virtual environment with the following commands:
 
-    `$ sudo docker run -it --rm -v {path/to/mhcglobe}:/mhcglobe -p 8888:8888 ejglynn/mhcglobe:latest`
-    
-5) A jupyter notebook session will will start and will print instructions and a token to access the notebook from the web browser (`token={token_string_to_copy}`).
+`python3 -m pip install --user --upgrade pip`
 
-6) In the web browser natigate to [http://localhost:8888](http://localhost:8888) and enter the copied token when prompted to access the MHCGlobe jupyter notebook.
+`python3 -m pip install --user virtualenv`
 
+`python3 -m venv env`
+
+4) Install prerequisites in the virtual environment:
+
+`pip3 install jupyter pandas scipy sklearn tensorflow tqdm`
+
+5) From the `mhcglobe` folder, start jupyter:
+
+`jupyter notebook`
+
+On your browser, go to 
