@@ -45,3 +45,4 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
     `jupyter notebook`
 
 On your browser, click on the `MHCGlobe_User_Notebook.ipynb` to open and interact with the notebook.
+**To speed things up, output files have already been provided in the `output` folder. If you want to recompute these files, simply delete or rename the `output` folder.**
