@@ -1,13 +1,18 @@
 <div align="left">
 
-# Mitigating Inequity in MHC Binding Predictions for T Cell Epitope Discovery
+# MHCGlobe and MHCPerf
+
+If you utilize MHCGlobe or MHCPerfin your research please cite:
+
+E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
 
 </div>
 
 
 <div align="center">
     
-[![DOI:00.0000/2022.01.20.000000](http://img.shields.io/badge/DOI-00.0000/0000.00.00.000000-B31B1B.svg)]([[https://mhcglobe](https://dataspace.princeton.edu/handle/88435/dsp019593tz290)]())
+[![DOI:10.1101/2024.01.30.578103](http://img.shields.io/badge/DOI-10.1101/2024.01.30.578103-B31B1B.svg)]([[https://mhcglobe](https://doi.org/10.1101/2024.01.30.578103)]())
+
 
 </div>
 
