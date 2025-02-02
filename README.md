@@ -50,5 +50,5 @@ On your browser, click on the `MHCGlobe_User_Notebook.ipynb` to open and interac
 
 If you utilize MHCGlobe or MHCPerfin your research please cite:
 
-E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
+> E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
 
