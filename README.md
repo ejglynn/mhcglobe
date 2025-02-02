@@ -2,7 +2,6 @@
 
 # MHCGlobe and MHCPerf
 
-
 </div>
 
 
@@ -13,15 +12,7 @@
 </div>
 
 
-If you utilize MHCGlobe or MHCPerfin your research please cite:
-
-E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
-
-
-
 **Motivation:** Computational tools that predict peptide binding by major histocompatibility complex (MHC) proteins play an essential role in current approaches to harness adaptive immunity to fight viral pathogens and cancers. However, there are >22,000 known class-I MHC allelic variants, and it is unknown how well binding preferences are predicted for most alleles. We introduce a machine learning framework that enables state-of-the-art MHC binding prediction along with per-allele estimates of predictive performance. 
-
-**Results:** We demonstrate stark disparities in how much binding data are associated with HLA alleles of individuals across racial and ethnic groups. Pan-MHC modeling mitigates some of these disparities when predicting MHC-peptide binding, and we devise a strategy to begin to address remaining inequities by leveraging our per-allele predictions of performance. The approaches introduced here further the development of equitable MHC binding models, which are necessary to understand adaptive immune response and to design effective personalized immunotherapies in genetically diverse individuals.
 
 
 # MHCGlobe & MHCPerf Installation
@@ -55,3 +46,9 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 On your browser, click on the `MHCGlobe_User_Notebook.ipynb` to open and interact with the notebook.
 
 **To speed things up, output files have already been provided in the `output` folder. If you want to recompute these files, simply delete or rename the `output` folder.**
+
+
+If you utilize MHCGlobe or MHCPerfin your research please cite:
+
+E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
+
