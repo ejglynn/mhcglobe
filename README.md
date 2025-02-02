@@ -4,6 +4,10 @@
 
 </div>
 
+If you utilize MHCGlobe or MHCPerfin your research please cite:
+
+> E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
+
 
 <div align="center">
     
@@ -46,9 +50,4 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
 On your browser, click on the `MHCGlobe_User_Notebook.ipynb` to open and interact with the notebook.
 
 **To speed things up, output files have already been provided in the `output` folder. If you want to recompute these files, simply delete or rename the `output` folder.**
-
-
-If you utilize MHCGlobe or MHCPerfin your research please cite:
-
-> E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025. https://doi.org/10.1101/2024.01.30.578103
 
