@@ -7,7 +7,7 @@
 
 <div align="center">
     
-[![DOI:10.1101/2024.01.30.578103](http://img.shields.io/badge/DOI-10.1101/2024.01.30.578103-B31B1B.svg)](https://doi.org/10.1101/2024.01.30.578103)
+[![DOI:10.1101/2024.01.30.578103](http://img.shields.io/badge/DOI-10.1073/2024.01.30.578103-B31B1B.svg)](https://doi.org/10.1073/pnas.2405106122)
 
 </div>
 
@@ -16,7 +16,7 @@
 
 If you utilize MHCGlobe or MHCPerf in your research please cite:
 
-> E. Glynn, D. Ghersi, M. Singh. "Toward Equitable Major Histocompatibility Complex Binding Predictions" PNAS, 2025.
+> E. Glynn,D. Ghersi,& M. Singh,  Toward equitable major histocompatibility complex binding predictions, Proc. Natl. Acad. Sci. U.S.A. 122 (8) e2405106122, https://doi.org/10.1073/pnas.2405106122 (2025).
 
 # MHCGlobe & MHCPerf Installation
 
