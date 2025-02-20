@@ -27,8 +27,9 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
     `git clone https://github.com/ejglynn/mhcglobe.git`
 
 2) Update the `mhcglobe_dir` variable in `src/paths.py` with the full path to your `mhcglobe` folder.
+3) Download the two pickle files available on [Zenodo] (https://zenodo.org/records/14902982?token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImE0YmI3NDE0LThiNTgtNDRhOS04YWUxLThlN2E2ZWI3ZjdmYyIsImRhdGEiOnt9LCJyYW5kb20iOiI2MzgyZTFhMjMyNjE0YzAyMTA1OGIyNzFhNGE5MzA0OCJ9.1VTHMcnqipmYLAKVvO16GDZRVUnoPtzoQFi4DvG6fqianmCi7Q55wwpqMFWADHEm8Jx1T5d3Xkwaq2B2ZmToog) and place them in the data folder.
     
-3) From the `mhcglobe` folder create and activate a Python3 virtual environment with the following commands:
+4) From the `mhcglobe` folder create and activate a Python3 virtual environment with the following commands:
 
     `python3 -m pip install --user --upgrade pip`
 
@@ -38,11 +39,11 @@ MHCGlobe and MHCPerf are both easily accessible for model inference and re-train
     
     `source env/bin/activate`
 
-4) Install prerequisites in the virtual environment:
+5) Install prerequisites in the virtual environment:
 
     `pip3 install jupyter pandas scipy sklearn tensorflow tqdm`
 
-5) From the `mhcglobe` folder, start jupyter:
+6) From the `mhcglobe` folder, start jupyter:
 
     `jupyter notebook`
 
