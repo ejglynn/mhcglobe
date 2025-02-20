@@ -7,7 +7,7 @@
 
 <div align="center">
     
-[![DOI:10.1101/2024.01.30.578103](http://img.shields.io/badge/DOI-10.1073/2024.01.30.578103-B31B1B.svg)](https://doi.org/10.1073/pnas.2405106122)
+[![DOI:10.1101/2024.01.30.578103](http://img.shields.io/badge/DOI-10.1073/2024.01.30.578103-B31B1B.svg)(https://doi.org/10.1073/pnas.2405106122)]
 
 </div>
 
